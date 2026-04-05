@@ -1,0 +1,3 @@
+Model,Test Accuracy
+TF-IDF + LR (Baseline),0.884
+DistilBERT Features + LR,0.848

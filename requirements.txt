@@ -1,0 +1,33 @@
+# Core Data Science
+pandas==2.2.2
+numpy==1.26.4
+matplotlib==3.8.4
+seaborn==0.13.2
+
+# NLP & Machine Learning
+scikit-learn==1.4.2
+nltk==3.8.1
+wordcloud==1.9.3
+
+# Deep Learning / Transformers
+torch==2.3.0
+transformers==4.40.2
+datasets==2.19.1
+
+# arXiv Data Collection
+arxiv==2.1.0
+
+# ML Boosting Models
+xgboost==2.0.3
+
+# Deployment
+streamlit==1.34.0
+plotly==5.21.0
+
+# Notebook
+jupyter==1.0.0
+ipykernel==6.29.4
+
+# Utilities
+tqdm==4.66.4
+joblib==1.4.0
