@@ -172,6 +172,6 @@ Opens an interactive web app in your browser!
 
 ## 👤 Author
 
-**[Your Name]** | 3rd Year B.Tech Student  
+**[ABHSSHEK PRJAPATI]** | 3rd Year B.Tech Student  
 *Built for the ML/NLP Engineer portfolio.*  
 [LinkedIn](https://linkedin.com) | [GitHub](https://github.com)
