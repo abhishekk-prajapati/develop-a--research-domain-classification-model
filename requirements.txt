@@ -1,3 +1,5 @@
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 # Core Data Science
 pandas==2.2.2
 numpy==1.26.4
@@ -10,7 +12,7 @@ nltk==3.8.1
 wordcloud==1.9.3
 
 # Deep Learning / Transformers
-torch==2.3.0
+torch
 transformers==4.40.2
 datasets==2.19.1
 
