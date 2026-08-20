@@ -13,8 +13,7 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-import torch
-from transformers import DistilBertTokenizerFast, DistilBertModel
+
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from src.preprocess import clean_text
@@ -155,13 +154,16 @@ def load_baseline_model():
 def load_distilbert_resources():
     """Load DistilBERT tokenizer + model for feature extraction. Cached."""
     try:
+        import torch
+        from transformers import DistilBertTokenizerFast, DistilBertModel
+        torch.set_num_threads(1) # Reduce memory overhead
         tokenizer   = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased")
         bert_model  = DistilBertModel.from_pretrained("distilbert-base-uncased")
         bert_model.eval()
         clf         = joblib.load("models/distilbert_classifier.pkl")
         id_to_label = joblib.load("models/id_to_label.pkl")
         return tokenizer, bert_model, clf, id_to_label
-    except (FileNotFoundError, OSError):
+    except (FileNotFoundError, OSError, ImportError):
         return None, None, None, None
 
 
@@ -177,6 +179,7 @@ def predict_baseline(abstract, vectorizer, model, id_to_label):
 
 
 def predict_distilbert(abstract, tokenizer, bert_model, clf, id_to_label):
+    import torch
     encoding = tokenizer(
         abstract, max_length=128, padding="max_length",
         truncation=True, return_tensors="pt"
