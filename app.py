@@ -263,9 +263,9 @@ with col2:
         <div style="display:flex; align-items:center; margin:0.4rem 0;
                     padding:0.5rem 0.8rem; border-radius:8px;
                     background:{color}20; border-left:3px solid {color};">
-            <span style="font-size:1rem; font-weight:600; color:#1e293b;
+            <span style="font-size:1rem; font-weight:600;
                          margin-right:0.5rem;">{icon}</span>
-            <span style="font-size:0.9rem; color:#1e293b;">{domain}</span>
+            <span style="font-size:0.9rem;">{domain}</span>
         </div>
         """, unsafe_allow_html=True)
 
