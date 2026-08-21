@@ -260,12 +260,14 @@ with col2:
     for domain, icon in DOMAIN_ICONS.items():
         color = DOMAIN_COLORS.get(domain, "#667eea")
         st.markdown(f"""
-        <div style="display:flex; align-items:center; margin:0.4rem 0;
-                    padding:0.5rem 0.8rem; border-radius:8px;
-                    background:{color}20; border-left:3px solid {color};">
-            <span style="font-size:1rem; font-weight:600;
-                         margin-right:0.5rem;">{icon}</span>
-            <span style="font-size:0.9rem;">{domain}</span>
+        <div style="display:flex; align-items:center; margin:0.6rem 0;
+                    padding:0.8rem 1rem; border-radius:10px;
+                    background: linear-gradient(135deg, {color}90 0%, {color} 100%);
+                    box-shadow: 0 4px 15px {color}30;
+                    color: white; border: 1px solid {color}50;">
+            <span style="font-size:1.1rem; font-weight:800;
+                         margin-right:0.75rem; letter-spacing: 1px;">{icon}</span>
+            <span style="font-size:1rem; font-weight: 500;">{domain}</span>
         </div>
         """, unsafe_allow_html=True)
 
