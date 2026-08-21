@@ -290,6 +290,7 @@ if classify_btn:
                     predicted_label, probs, class_names = predict_baseline(
                         abstract_input, vectorizer, model, id_to_label
                     )
+                    st.session_state['pred_results'] = (predicted_label, probs, class_names)
             else:
                 tokenizer, bert_model, clf, id_to_label = load_distilbert_resources()
                 if clf is None:
@@ -299,41 +300,44 @@ if classify_btn:
                         predicted_label, probs, class_names = predict_distilbert(
                             abstract_input, tokenizer, bert_model, clf, id_to_label
                         )
+                        st.session_state['pred_results'] = (predicted_label, probs, class_names)
 
-        if predicted_label and probs is not None:
-            icon       = DOMAIN_ICONS.get(predicted_label, "[?]")
-            confidence = float(max(probs)) * 100
+if 'pred_results' in st.session_state:
+    predicted_label, probs, class_names = st.session_state['pred_results']
+    if predicted_label and probs is not None:
+        icon       = DOMAIN_ICONS.get(predicted_label, "[?]")
+        confidence = float(max(probs)) * 100
 
-            st.markdown(f"""
-            <div class="prediction-card">
-                <h2>Predicted Domain</h2>
-                <h1>{icon} {predicted_label}</h1>
-                <p style="opacity:0.85; margin-top:0.5rem; font-size:1rem;">
-                    Confidence: <strong>{confidence:.1f}%</strong>
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+        st.markdown(f"""
+        <div class="prediction-card">
+            <h2>Predicted Domain</h2>
+            <h1>{icon} {predicted_label}</h1>
+            <p style="opacity:0.85; margin-top:0.5rem; font-size:1rem;">
+                Confidence: <strong>{confidence:.1f}%</strong>
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
 
-            st.markdown("### Confidence Scores (All Domains)")
-            sorted_idx    = sorted(range(len(probs)), key=lambda i: probs[i], reverse=True)
-            sorted_labels = [class_names[i] for i in sorted_idx]
-            sorted_probs  = [float(probs[i]) * 100 for i in sorted_idx]
-            sorted_colors = [DOMAIN_COLORS.get(lbl, "#667eea") for lbl in sorted_labels]
+        st.markdown("### Confidence Scores (All Domains)")
+        sorted_idx    = sorted(range(len(probs)), key=lambda i: probs[i], reverse=True)
+        sorted_labels = [class_names[i] for i in sorted_idx]
+        sorted_probs  = [float(probs[i]) * 100 for i in sorted_idx]
+        sorted_colors = [DOMAIN_COLORS.get(lbl, "#667eea") for lbl in sorted_labels]
 
-            fig = go.Figure(go.Bar(
-                x=sorted_probs, y=sorted_labels, orientation="h",
-                marker=dict(color=sorted_colors, line=dict(width=0)),
-                text=[f"{p:.1f}%" for p in sorted_probs],
-                textposition="outside"
-            ))
-            fig.update_layout(
-                margin=dict(l=0, r=60, t=10, b=10), height=280,
-                xaxis=dict(range=[0, 115], showgrid=True, gridcolor="#f0f0f0",
-                           title="Confidence (%)"),
-                yaxis=dict(tickfont=dict(size=12)),
-                plot_bgcolor="white", paper_bgcolor="white",
-            )
-            st.plotly_chart(fig, use_container_width=True)
+        fig = go.Figure(go.Bar(
+            x=sorted_probs, y=sorted_labels, orientation="h",
+            marker=dict(color=sorted_colors, line=dict(width=0)),
+            text=[f"{p:.1f}%" for p in sorted_probs],
+            textposition="outside"
+        ))
+        fig.update_layout(
+            margin=dict(l=0, r=60, t=10, b=10), height=280,
+            xaxis=dict(range=[0, 115], showgrid=True, gridcolor="rgba(128,128,128,0.2)",
+                       title="Confidence (%)"),
+            yaxis=dict(tickfont=dict(size=12)),
+            plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
+        )
+        st.plotly_chart(fig, use_container_width=True)
 
 # ─── Model Comparison ─────────────────────────────────────────────────────────
 
@@ -361,6 +365,6 @@ if os.path.exists(metrics_path):
     fig2.update_traces(texttemplate="%{text:.4f}", textposition="outside")
     fig2.update_layout(
         yaxis=dict(range=[0, 1.1], title="Test Accuracy"),
-        showlegend=False, plot_bgcolor="white", paper_bgcolor="white", height=350,
+        showlegend=False, plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)", height=350,
     )
     st.plotly_chart(fig2, use_container_width=True)
